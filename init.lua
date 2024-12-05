@@ -35,3 +35,18 @@ require "autocmds"
 vim.schedule(function()
   require "mappings"
 end)
+
+-- Function to strip trailing whitespace
+local function strip_trailing_whitespaces()
+  local view = vim.fn.winsaveview()
+  vim.cmd([[%s/\s\+$//e]])
+  vim.fn.winrestview(view)
+end
+
+-- Autocommand to call the function before writing a file
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
+  callback = strip_trailing_whitespaces,
+})
+
+vim.opt.colorcolumn = "80,100"
