@@ -9,11 +9,18 @@ local nvlsp = require "nvchad.configs.lspconfig"
 
 -- lsps with default config
 for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
+   local opts = {
     on_attach = nvlsp.on_attach,
     on_init = nvlsp.on_init,
     capabilities = nvlsp.capabilities,
   }
+
+  -- Special case for clangd
+  if lsp == "clangd" then
+    opts.cmd = { "clangd", "--header-insertion=never" }
+  end
+  lspconfig[lsp].setup(opts)
+
 end
 
 -- configuring single server, example: typescript
