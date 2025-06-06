@@ -49,3 +49,6 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   callback = strip_trailing_whitespaces,
 })
 
+
+-- draw vertical lines to at 80 and 100 characters
+vim.opt.colorcolumn = "80,100"
