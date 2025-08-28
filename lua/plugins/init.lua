@@ -1,8 +1,9 @@
 return {
   {
     "stevearc/conform.nvim",
-    -- event = 'BufWritePre', -- uncomment for format on save
+    event = "BufWritePre", -- uncomment for format on save
     opts = require "configs.conform",
+    cmd = { "ConformInfo" },
   },
 
   -- These are some examples, uncomment them if you want to see them work!
@@ -16,13 +17,26 @@ return {
   -- test new blink
   -- { import = "nvchad.blink.lazyspec" },
 
-  -- {
-  -- 	"nvim-treesitter/nvim-treesitter",
-  -- 	opts = {
-  -- 		ensure_installed = {
-  -- 			"vim", "lua", "vimdoc",
-  --      "html", "css"
-  -- 		},
-  -- 	},
-  -- },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = {
+      ensure_installed = {
+        "vim",
+        "lua",
+        "vimdoc",
+        "html",
+        "css",
+        "c",
+        "cpp",
+        "python",
+        "bash",
+        "yaml",
+        "groovy",
+        "json",
+        "make",
+        "cmake",
+        "proto",
+      },
+    },
+  },
 }
