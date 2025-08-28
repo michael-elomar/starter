@@ -16,7 +16,7 @@ local lazy_config = require "configs.lazy"
 -- load plugins
 require("lazy").setup({
   {
-    "NvChad/NvChad",
+    "michael-elomar/NvChad",
     lazy = false,
     branch = "v2.5",
     import = "nvchad.plugins",
@@ -35,3 +35,40 @@ require "autocmds"
 vim.schedule(function()
   require "mappings"
 end)
+
+-- Function to strip trailing whitespace
+local function strip_trailing_whitespaces()
+  local view = vim.fn.winsaveview()
+  vim.cmd [[%s/\s\+$//e]]
+  vim.fn.winrestview(view)
+end
+
+-- Autocommand to call the function before writing a file
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
+  callback = strip_trailing_whitespaces,
+})
+
+vim.opt.colorcolumn = "80,100"
+
+vim.opt.tabstop = 4 -- visual width of tab
+vim.opt.shiftwidth = 4 -- >> indents by 4
+vim.opt.expandtab = false -- use real tabs, not spaces (set true if you prefer spaces)
+
+-- Indentation behavior
+vim.opt.autoindent = true -- copy indent from current line
+vim.opt.smartindent = true -- smart auto indent for C-like syntax
+vim.opt.cindent = true -- advanced C indentation
+vim.opt.cinoptions = ":0,N-s" -- align 'case' with 'switch', don't over-indent namespace
+
+vim.api.nvim_create_user_command("Format", function(args)
+  local range = nil
+  if args.count ~= -1 then
+    local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
+    range = {
+      start = { args.line1, 0 },
+      ["end"] = { args.line2, end_line:len() },
+    }
+  end
+  require("configs.conform").format { async = true, lsp_format = "fallback", range = range }
+end, { range = true })
