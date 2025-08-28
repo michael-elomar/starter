@@ -7,12 +7,16 @@ local options = {
     c = { "clang_format" },
     c_cpp = { "clang-format" }, -- hack to install the package
     python = { "black" },
+    xml = { "xmlformatter" },
   },
 
   formatters = {
     clang_format = {
       command = "/usr/bin/clang-format-11",
       prepend_args = { "--style=file", "--fallback-style=none" },
+    },
+    xmlformatter = {
+      append_args = { "--selfclose", "true" },
     },
   },
 
