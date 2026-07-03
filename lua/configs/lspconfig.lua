@@ -11,6 +11,6 @@ vim.lsp.config.clangd = {
   },
 }
 
-vim.lsp.set_log_level "trace"
+vim.lsp.log.set_level "trace"
 
 -- read :h vim.lsp.config for changing options of lsp servers
